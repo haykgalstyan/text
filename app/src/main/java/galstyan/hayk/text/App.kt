@@ -1,4 +1,4 @@
-package galstyan.hayk.notes
+package galstyan.hayk.text
 
 import android.app.Application
 import androidx.viewbinding.BuildConfig

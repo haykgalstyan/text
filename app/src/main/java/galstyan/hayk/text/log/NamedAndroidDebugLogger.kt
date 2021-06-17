@@ -1,7 +1,7 @@
-package galstyan.hayk.notes.log
+package galstyan.hayk.text.log
 
 import android.util.Log
-import galstyan.hayk.notes.Logger
+import galstyan.hayk.text.Logger
 import javax.inject.Inject
 
 class NamedAndroidDebugLogger @Inject constructor(private val name: String) : Logger {

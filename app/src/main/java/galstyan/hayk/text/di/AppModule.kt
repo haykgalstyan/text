@@ -1,11 +1,11 @@
-package com.example.tasks.di
+package galstyan.hayk.text.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import galstyan.hayk.notes.Logger
-import galstyan.hayk.notes.log.NamedAndroidDebugLogger
+import galstyan.hayk.text.Logger
+import galstyan.hayk.text.log.NamedAndroidDebugLogger
 
 
 @Module
