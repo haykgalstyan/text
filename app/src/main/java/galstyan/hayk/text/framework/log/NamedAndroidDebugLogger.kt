@@ -1,4 +1,4 @@
-package galstyan.hayk.text.log
+package galstyan.hayk.text.framework.log
 
 import android.util.Log
 import galstyan.hayk.text.Logger

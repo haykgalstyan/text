@@ -1,7 +1,6 @@
 package galstyan.hayk.text
 
 import android.app.Application
-import androidx.viewbinding.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

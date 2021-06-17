@@ -1,7 +1,7 @@
-package galstyan.hayk.text.domain.usecase
+package galstyan.hayk.core.domain.usecase
 
-import galstyan.hayk.text.data.repository.DocumentRepository
-import galstyan.hayk.text.domain.entity.Document
+import galstyan.hayk.core.data.DocumentRepository
+import galstyan.hayk.core.domain.entity.Document
 
 class DocumentSave(private val repository: DocumentRepository) {
     suspend operator fun invoke(document: Document) {

@@ -1,4 +1,4 @@
-package galstyan.hayk.text.domain.entity
+package galstyan.hayk.core.domain.entity
 
 
 data class Document(

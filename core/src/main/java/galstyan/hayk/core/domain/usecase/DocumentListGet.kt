@@ -1,6 +1,6 @@
-package galstyan.hayk.text.domain.usecase
+package galstyan.hayk.core.domain.usecase
 
-import galstyan.hayk.text.data.repository.DocumentRepository
+import galstyan.hayk.core.data.DocumentRepository
 
 class DocumentListGet(private val repository: DocumentRepository) {
     suspend operator fun invoke() {

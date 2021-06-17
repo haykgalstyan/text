@@ -1,6 +1,6 @@
-package galstyan.hayk.text.data.repository
+package galstyan.hayk.core.data
 
-import galstyan.hayk.text.domain.entity.Document
+import galstyan.hayk.core.domain.entity.Document
 
 interface DocumentDataSource {
 

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Text">
 
-        <activity android:name="galstyan.hayk.text.AppActivity">
+        <activity android:name="galstyan.hayk.text.ui.AppActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
