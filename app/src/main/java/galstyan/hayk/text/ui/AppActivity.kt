@@ -25,9 +25,5 @@ class AppActivity : AppCompatActivity(R.layout.activity_main) {
                 replace<DocumentListFragment>(R.id.fragment_container_view)
             }
         }
-
-        logger.log("app", "aper")
     }
-
-
 }

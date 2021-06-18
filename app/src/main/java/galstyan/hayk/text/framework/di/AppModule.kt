@@ -12,6 +12,7 @@ import galstyan.hayk.core.domain.usecase.DocumentListGet
 import galstyan.hayk.core.domain.usecase.DocumentSave
 import galstyan.hayk.text.Logger
 import galstyan.hayk.text.framework.DocumentFileDataSource
+import galstyan.hayk.text.framework.DocumentMockDataSource
 import galstyan.hayk.text.framework.log.NamedAndroidDebugLogger
 import java.io.File
 
@@ -24,12 +25,12 @@ object AppModule {
     fun provideLogger(): Logger = NamedAndroidDebugLogger("AppLogger")
 
     @Provides
-    fun provideDocumentDataSource(@ApplicationContext context: Context) =
-        DocumentFileDataSource(context.filesDir, provideLogger())
+    fun provideDocumentDataSource(@ApplicationContext context: Context) : DocumentDataSource =
+        DocumentMockDataSource(context.filesDir, provideLogger())
 
     @Provides
-    fun provideDocumentRepository(documentFileDataSource: DocumentFileDataSource) =
-        DocumentRepository(documentFileDataSource)
+    fun provideDocumentRepository(documentDataSource: DocumentDataSource) =
+        DocumentRepository(documentDataSource)
 
     @Provides
     fun provideDocumentListGet(documentRepository: DocumentRepository): DocumentListGet =
