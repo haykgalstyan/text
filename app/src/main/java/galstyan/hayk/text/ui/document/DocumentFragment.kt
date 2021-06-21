@@ -36,4 +36,17 @@ class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
             binding.text.setText(it.text)
         }
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.saveDocument(
+            Document(
+                title = binding.title.text.toString(),
+                text = binding.text.text.toString(),
+                dateCreated = 0,
+                dateEdited = 0,
+            )
+        )
+    }
 }

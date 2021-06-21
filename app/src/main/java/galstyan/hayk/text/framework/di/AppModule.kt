@@ -26,7 +26,7 @@ object AppModule {
 
     @Provides
     fun provideDocumentDataSource(@ApplicationContext context: Context): DocumentDataSource =
-        DocumentMockDataSource(context)
+        DocumentFileDataSource(context.filesDir, provideLogger())
 
     @Provides
     fun provideDocumentRepository(documentDataSource: DocumentDataSource) =
