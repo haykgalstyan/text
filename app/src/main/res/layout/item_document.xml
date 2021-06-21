@@ -29,6 +29,7 @@
             android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="@integer/document_list_item_max_lines"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"

@@ -32,7 +32,7 @@ class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         (arguments?.get(argKeyDocument) as Document?)?.let {
-            binding.title.text = it.title
+            binding.title.setText(it.title)
             binding.text.setText(it.text)
         }
     }
