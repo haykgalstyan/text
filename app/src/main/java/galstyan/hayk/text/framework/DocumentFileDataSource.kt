@@ -20,7 +20,7 @@ class DocumentFileDataSource(
         val files = workingDirectory.listFiles() ?: return emptyList()
         return files.map {
             Document(
-                name = it.name,
+                title = it.name,
                 text = it.readText(),
                 dateCreated = 0L,
                 dateEdited = 0L
@@ -29,13 +29,13 @@ class DocumentFileDataSource(
     }
 
     override suspend fun save(document: Document) {
-        val file = File(workingDirectory, document.name)
+        val file = File(workingDirectory, document.title)
         if (!file.exists()) file.createNewFile()
         file.writeText(document.text)
     }
 
     override suspend fun remove(document: Document) {
-        val file = File(workingDirectory, document.name)
+        val file = File(workingDirectory, document.title)
         if (file.exists()) file.delete()
     }
 }

@@ -25,8 +25,8 @@ object AppModule {
     fun provideLogger(): Logger = NamedAndroidDebugLogger("AppLogger")
 
     @Provides
-    fun provideDocumentDataSource(@ApplicationContext context: Context) : DocumentDataSource =
-        DocumentMockDataSource(context.filesDir, provideLogger())
+    fun provideDocumentDataSource(@ApplicationContext context: Context): DocumentDataSource =
+        DocumentMockDataSource(context)
 
     @Provides
     fun provideDocumentRepository(documentDataSource: DocumentDataSource) =

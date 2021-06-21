@@ -1,9 +1,11 @@
 package galstyan.hayk.core.domain.entity
 
+import java.io.Serializable
+
 
 data class Document(
-    val name: String,
+    val title: String,
     val text: String,
     val dateCreated: Long,
     val dateEdited: Long
-)
+) : Serializable
