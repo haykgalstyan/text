@@ -42,16 +42,19 @@ class DocumentFileDataSource(
     }
 
     override suspend fun save(document: Document) {
+        if (document.title.isNullOrBlank() && document.text.isNullOrBlank())
+            return
+
         val timeStamp = System.currentTimeMillis()
         val id = document.id?.toInt()
-        val contentText = document.text?.takeIf { it.isNotBlank() }
         val documentTitle = document.title?.takeIf { it.isNotBlank() }
+        val contentText = document.text?.takeIf { it.isNotBlank() }
         val creationTime = document.timeCreated ?: timeStamp
         val editionTime = document.timeCreated ?: timeStamp
-        val fileName = document.title ?: timeStamp.toString()
+        val fileName = documentTitle ?: timeStamp.toString()
         val file = File(workingDirectory, fileName)
 
-        if (!file.exists()) file.createNewFile()
+        if (!file.exists() && !file.isDirectory) file.createNewFile()
         contentText?.let { file.writeText(it) }
         dao.insert(
             DocumentEntity(
