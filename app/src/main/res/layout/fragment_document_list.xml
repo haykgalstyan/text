@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_toolbar"
+        app:menu="@menu/menu_toolbar_document_list"
         app:title="@string/app_name" />
 
 
@@ -39,7 +39,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/createNoteAction"
+        android:id="@+id/createDocumentAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"

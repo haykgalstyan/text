@@ -51,13 +51,13 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
             updateList(adapter, documentList)
         })
 
-        binding.createNoteAction.setOnClickListener { openDocument() }
+        binding.createDocumentAction.setOnClickListener { openDocument() }
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.createNoteMenuAction -> openDocument()
+            R.id.createDocumentMenuAction -> openDocument()
         }
         return true
     }

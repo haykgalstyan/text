@@ -12,4 +12,8 @@ class DocumentRepository(private val dataSource: DocumentDataSource) {
      * Otherwise replace the one with the matching name
      */
     suspend fun save(document: Document) = dataSource.save(document)
+
+
+    suspend fun remove(document: Document) = dataSource.remove(document)
+
 }

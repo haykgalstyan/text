@@ -70,11 +70,26 @@ class DocumentFileDataSource(
     override suspend fun remove(document: Document) {
         val id = document.id?.toInt() ?: return
         val documentEntity = dao.get(id)
-        dao.delete(DocumentEntity(id = id))
+
+        logger.log(
+            javaClass.simpleName,
+            "\nbefore remove $documentEntity...\n" +
+                    "files in dir: ${workingDirectory.name}\n" +
+                    "${workingDirectory.listFiles()?.map { it.name }}"
+        )
+
+        dao.delete(documentEntity)
 
         val fileName = documentEntity.fileName ?: return
         val file = File(workingDirectory, fileName)
         if (file.exists()) file.delete()
+
+        logger.log(
+            javaClass.simpleName,
+            "\nremove $documentEntity...\n" +
+                    "files in dir: ${workingDirectory.name}\n" +
+                    "${workingDirectory.listFiles()?.map { it.name }}"
+        )
     }
 
     private fun clearWorkingDirectory() {
