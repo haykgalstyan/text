@@ -4,8 +4,9 @@ import java.io.Serializable
 
 
 data class Document(
-    val title: String,
-    val text: String,
-    val dateCreated: Long,
-    val dateEdited: Long
+    val id: String? = null,
+    val title: String? = null,
+    val text: String? = null,
+    val timeCreated: Long? = null,
+    val timeEdited: Long? = null,
 ) : Serializable

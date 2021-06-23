@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.core.domain.usecase.DocumentSave
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ class DocumentViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun saveDocument(document: Document) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             documentSave.invoke(document)
         }
     }

@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "galstyan.hayk.text"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -42,6 +42,9 @@ android {
 
 dependencies {
 
+    // app core
+    implementation project(path: ':core')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
 
@@ -55,7 +58,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation project(path: ':core')
+
+    // Material theme
+    implementation "com.google.android.material:material:1.4.0-rc01"
 
     // test
     testImplementation 'junit:junit:4.13.2'
@@ -65,4 +70,10 @@ dependencies {
     // DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // DB
+    def room_version = "2.3.0"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
 }

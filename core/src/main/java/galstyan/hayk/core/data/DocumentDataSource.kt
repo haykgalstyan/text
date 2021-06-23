@@ -6,7 +6,14 @@ interface DocumentDataSource {
 
     suspend fun getList(): List<Document>
 
+    /**
+     * Create a new document if it does not exist
+     * Otherwise replace the one with the matching name
+     */
     suspend fun save(document: Document)
 
+    /**
+     * Remove the document if it exists
+     */
     suspend fun remove(document: Document)
 }

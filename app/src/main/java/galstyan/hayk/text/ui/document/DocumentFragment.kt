@@ -12,15 +12,6 @@ import galstyan.hayk.text.databinding.FragmentDocumentBinding
 
 @AndroidEntryPoint
 class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
-    companion object {
-        const val argKeyDocument = "document"
-        fun newInstance(document: Document?) =
-            DocumentFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable(argKeyDocument, document)
-                }
-            }
-    }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDocumentBinding =
         FragmentDocumentBinding::inflate
@@ -30,8 +21,8 @@ class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (arguments?.get(argKeyDocument) as Document?)?.let {
+        binding.toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
+        getDocument().let {
             binding.title.setText(it.title)
             binding.text.setText(it.text)
         }
@@ -41,12 +32,24 @@ class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
     override fun onPause() {
         super.onPause()
         viewModel.saveDocument(
-            Document(
+            getDocument().copy(
                 title = binding.title.text.toString(),
                 text = binding.text.text.toString(),
-                dateCreated = 0,
-                dateEdited = 0,
             )
         )
+    }
+
+    private fun getDocument(): Document =
+        (arguments?.get(argKeyDocument) as Document?) ?: Document()
+
+
+    companion object {
+        const val argKeyDocument = "document"
+        fun newInstance(document: Document?) =
+            DocumentFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(argKeyDocument, document)
+                }
+            }
     }
 }

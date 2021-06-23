@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- state drawable is not supported, so changing programmatically -->
+    <item
+        android:id="@+id/action_toggle_cash"
+        android:icon="@drawable/outline_note_add_white_24"
+        android:title="Blah"
+        app:showAsAction="ifRoom" />
+
+    <group android:id="@+id/action_language">
+        <item
+            android:id="@+id/action_language_en"
+            android:title="EN"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_language_am"
+            android:title="AM"
+            app:showAsAction="never" />
+    </group>
+
+</menu>

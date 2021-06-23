@@ -1,6 +1,8 @@
 package galstyan.hayk.text.framework.di
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,9 +14,8 @@ import galstyan.hayk.core.domain.usecase.DocumentListGet
 import galstyan.hayk.core.domain.usecase.DocumentSave
 import galstyan.hayk.text.Logger
 import galstyan.hayk.text.framework.DocumentFileDataSource
-import galstyan.hayk.text.framework.DocumentMockDataSource
+import galstyan.hayk.text.framework.db.AppDatabase
 import galstyan.hayk.text.framework.log.NamedAndroidDebugLogger
-import java.io.File
 
 
 @Module
@@ -25,8 +26,13 @@ object AppModule {
     fun provideLogger(): Logger = NamedAndroidDebugLogger("AppLogger")
 
     @Provides
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase::class.java.name)
+            .build()
+
+    @Provides
     fun provideDocumentDataSource(@ApplicationContext context: Context): DocumentDataSource =
-        DocumentFileDataSource(context.filesDir, provideLogger())
+        DocumentFileDataSource(provideDatabase(context), context.filesDir, provideLogger())
 
     @Provides
     fun provideDocumentRepository(documentDataSource: DocumentDataSource) =

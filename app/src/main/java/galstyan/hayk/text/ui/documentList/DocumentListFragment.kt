@@ -27,39 +27,47 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
 
     private val viewModel: DocumentListViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getDocumentList()
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configureListUI()
+        setUpListRefresh()
 
-        val adapter = createDocumentListAdapter(onClick = {
-            push(DocumentFragment.newInstance(it))
-        }).also { binding.documentList.adapter = it }
-
-        binding.documentList.apply {
-            addItemMargins(
-                top = toPx(8),
-                left = toPx(16),
-                right = toPx(16)
-            )
-            addItemMarginsLast(
-                bottom = toPx(16)
-            )
-        }
-
-        binding.createNoteAction.setOnClickListener {
-            push(DocumentFragment())
-        }
+        val adapter = createDocumentListAdapter(::openDocument)
+        binding.documentList.adapter = adapter
 
         viewModel.documentListObservable.observe(viewLifecycleOwner, { documentList ->
-            if (documentList.isNotEmpty())
-                adapter.submitList(documentList)
-            else logger.log("doc", "none")
+            updateList(adapter, documentList)
         })
+
+        binding.createNoteAction.setOnClickListener { openDocument() }
     }
+
+
+    private fun setUpListRefresh() = binding.documentListRefresh.apply {
+        setOnRefreshListener {
+            isRefreshing = false
+            viewModel.getDocumentList()
+        }
+    }
+
+
+    private fun updateList(adapter: BaseListAdapter<Document>, documentList: List<Document>) {
+        adapter.submitList(documentList)
+        binding.documentList.invalidateItemDecorations()
+    }
+
+
+    private fun openDocument(document: Document? = null) {
+        push(DocumentFragment.newInstance(document))
+    }
+
 
     private fun createDocumentListAdapter(onClick: (Document) -> Unit): BaseListAdapter<Document> =
         object : BaseListAdapter<Document>(DocumentListItemDiffer()) {
@@ -71,10 +79,6 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
             ): BoundViewHolder<Document> {
                 val binding = ItemDocumentBinding.inflate(inflater, parent, false)
                 return object : BoundViewHolder<Document>(binding.root) {
-                    init {
-
-                    }
-
                     override fun bind(it: Document) {
                         binding.title.text = it.title
                         binding.text.text = it.text
@@ -85,4 +89,16 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
                 }
             }
         }
+
+
+    private fun configureListUI() = binding.documentList.apply {
+        addItemMargins(
+            top = toPx(8),
+            left = toPx(16),
+            right = toPx(16)
+        )
+        addItemMarginsLast(
+            bottom = toPx(16)
+        )
+    }
 }

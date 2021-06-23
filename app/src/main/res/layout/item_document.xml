@@ -7,7 +7,7 @@
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    app:strokeColor="@color/black"
+    app:strokeColor="@color/colorCardBorder"
     app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
             android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="@integer/document_list_item_max_lines"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"

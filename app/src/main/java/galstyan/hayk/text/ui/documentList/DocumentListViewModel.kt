@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.core.domain.usecase.DocumentListGet
 import galstyan.hayk.core.domain.usecase.DocumentSave
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +21,8 @@ class DocumentListViewModel @Inject constructor(
     val documentListObservable: LiveData<List<Document>> get() = _documentListObservable
 
     fun getDocumentList() {
-        viewModelScope.launch {
-            _documentListObservable.value = documentListGet.invoke()
+        viewModelScope.launch(Dispatchers.IO) {
+            _documentListObservable.postValue(documentListGet.invoke())
         }
     }
 }
