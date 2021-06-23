@@ -25,7 +25,7 @@ class DocumentFileDataSource(
     override suspend fun getList() = dao.getAll().mapNotNull { dbEntry ->
         val fileName = dbEntry.fileName ?: return@mapNotNull null
         val file = File(workingDirectory, fileName)
-        if (!file.exists()) {
+        if (!file.exists() || file.isDirectory) {
             logger.log(
                 javaClass.simpleName,
                 "File with name \"${dbEntry.fileName}\" not found while getList()"
@@ -43,9 +43,9 @@ class DocumentFileDataSource(
 
     override suspend fun save(document: Document) {
         val timeStamp = System.currentTimeMillis()
-        val contentText = document.text
         val id = document.id?.toInt()
-        val documentTitle = document.title
+        val contentText = document.text?.takeIf { it.isNotBlank() }
+        val documentTitle = document.title?.takeIf { it.isNotBlank() }
         val creationTime = document.timeCreated ?: timeStamp
         val editionTime = document.timeCreated ?: timeStamp
         val fileName = document.title ?: timeStamp.toString()

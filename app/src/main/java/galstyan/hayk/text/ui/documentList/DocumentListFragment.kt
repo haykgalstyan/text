@@ -2,12 +2,14 @@ package galstyan.hayk.text.ui.documentList
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.text.Logger
+import galstyan.hayk.text.R
 import galstyan.hayk.text.ViewBindingFragment
 import galstyan.hayk.text.databinding.FragmentDocumentListBinding
 import galstyan.hayk.text.databinding.ItemDocumentBinding
@@ -38,6 +40,9 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
         super.onViewCreated(view, savedInstanceState)
         configureListUI()
         setUpListRefresh()
+        binding.toolbar.setOnMenuItemClickListener {
+            onOptionsItemSelected(it)
+        }
 
         val adapter = createDocumentListAdapter(::openDocument)
         binding.documentList.adapter = adapter
@@ -47,6 +52,14 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
         })
 
         binding.createNoteAction.setOnClickListener { openDocument() }
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.createNoteMenuAction -> openDocument()
+        }
+        return true
     }
 
 
@@ -92,13 +105,12 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
 
 
     private fun configureListUI() = binding.documentList.apply {
+        addItemMarginsFirst(top = toPx(16))
         addItemMargins(
             top = toPx(8),
             left = toPx(16),
             right = toPx(16)
         )
-        addItemMarginsLast(
-            bottom = toPx(16)
-        )
+        addItemMarginsLast(bottom = toPx(16))
     }
 }

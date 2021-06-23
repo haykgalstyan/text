@@ -57,6 +57,25 @@ class MarginItemDecoration(
     }
 }
 
+class MarginFirstItemDecoration(
+    private val left: Int = 0,
+    private val top: Int = 0,
+    private val right: Int = 0,
+    private val bottom: Int = 0
+) : RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        val position: Int = parent.getChildAdapterPosition(view)
+        if (position == 0)
+            outRect.set(left, top, right, bottom)
+        else super.getItemOffsets(outRect, view, parent, state)
+    }
+}
+
 class MarginLastItemDecoration(
     private val left: Int = 0,
     private val top: Int = 0,
@@ -76,6 +95,7 @@ class MarginLastItemDecoration(
     }
 }
 
+
 fun RecyclerView.addItemMargins(
     left: Int = 0,
     top: Int = 0,
@@ -83,6 +103,12 @@ fun RecyclerView.addItemMargins(
     bottom: Int = 0
 ) = this.addItemDecoration(MarginItemDecoration(left, top, right, bottom))
 
+fun RecyclerView.addItemMarginsFirst(
+    left: Int = 0,
+    top: Int = 0,
+    right: Int = 0,
+    bottom: Int = 0
+) = this.addItemDecoration(MarginFirstItemDecoration(left, top, right, bottom))
 
 fun RecyclerView.addItemMarginsLast(
     left: Int = 0,
