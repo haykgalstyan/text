@@ -1,18 +1,47 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+<resources><!--
 
-        <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
-        <!--        <item name="colorOnPrimary">@color/black</item>-->
-        <!--        <item name="colorSecondary">@color/teal_200</item>-->
-        <!--        <item name="colorSecondaryVariant">@color/teal_200</item>-->
-        <!--        <item name="colorOnSecondary">@color/black</item>-->
-        <!--        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>-->
+    A properly configured theme per Material design guidelines. Read more here:
+    https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md -->
+
+    <style name="Theme.AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+
+        <!-- The color displayed most frequently across your app’s screens and components -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <!-- A tonal variation of the primary color -->
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <!-- A color that passes accessibility guidelines when drawn on top of the primary color -->
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+
+        <!-- The secondary branding color for the app, usually an accented complement to the primary branding color -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <!-- A tonal variation of the secondary color. -->
+        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <!-- A color that passes accessibility guidelines when drawn on top of the secondary color. -->
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+
+        <!-- The background color appears behind scrollable content -->
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <!-- A color that passes accessibility guidelines when drawn on top of the background color -->
+        <item name="colorOnBackground">@color/onBackgroundColor</item>
+        <!-- Surface colors affect surfaces of components, such as cards, sheets, and menus -->
+        <item name="colorSurface">@color/surfaceColor</item>
+        <!-- A color that passes accessibility guidelines when drawn on top of the surface color -->
+        <item name="colorOnSurface">@color/onSurfaceColor</item>
+        <!-- Error color indicates errors states, for components such as text fields -->
+        <item name="colorError">@color/errorColor</item>
+        <!-- A color that passes accessibility guidelines when drawn on top of the error color -->
+        <item name="colorOnError">@color/onErrorColor</item>
+
+
+        <!-- Applying our CardView style to all instances -->
+        <item name="materialCardViewStyle">@style/Widget.AppTheme.CardView</item>
+
+    </style>
+
+
+    <!-- CardView-->
+    <style name="Widget.AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeColor">#000000</item>
     </style>
 
 </resources>

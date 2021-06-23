@@ -27,8 +27,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:strokeColor="@color/colorCardBorder"
         app:strokeWidth="1dp">
+        <!--        app:strokeColor="@color/colorCardBorder"-->
 
         <EditText
             android:id="@+id/title"
@@ -54,8 +54,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleCard"
-        app:strokeColor="@color/colorCardBorder"
         app:strokeWidth="1dp">
+<!--        app:strokeColor="@color/colorCardBorder"-->
 
         <EditText
             android:id="@+id/text"
