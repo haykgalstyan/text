@@ -19,8 +19,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            push(DocumentListFragment())
-        }
+        if (savedInstanceState == null) push(DocumentListFragment())
     }
 }

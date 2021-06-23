@@ -1,4 +1,4 @@
-package galstyan.hayk.text
+package galstyan.hayk.text.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

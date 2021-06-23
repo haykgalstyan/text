@@ -21,5 +21,4 @@ class DocumentViewModel @Inject constructor(
             documentSave.invoke(document)
         }
     }
-
 }

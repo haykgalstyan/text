@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.text.Logger
 import galstyan.hayk.text.R
-import galstyan.hayk.text.ViewBindingFragment
+import galstyan.hayk.text.ui.ViewBindingFragment
 import galstyan.hayk.text.databinding.FragmentDocumentListBinding
 import galstyan.hayk.text.databinding.ItemDocumentBinding
 import galstyan.hayk.text.ui.*

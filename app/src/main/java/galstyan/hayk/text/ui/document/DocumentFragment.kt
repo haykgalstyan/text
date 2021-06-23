@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import galstyan.hayk.core.domain.entity.Document
-import galstyan.hayk.text.ViewBindingFragment
+import galstyan.hayk.text.ui.ViewBindingFragment
 import galstyan.hayk.text.databinding.FragmentDocumentBinding
 
 @AndroidEntryPoint
@@ -39,8 +39,8 @@ class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
         )
     }
 
-    private fun getDocument(): Document =
-        (arguments?.get(argKeyDocument) as Document?) ?: Document()
+
+    private fun getDocument(): Document = (arguments?.get(argKeyDocument) as Document?) ?: Document()
 
 
     companion object {
