@@ -66,18 +66,14 @@ class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
     }
 
 
-    private fun shareDocument() {
-        startActivity(
-            Intent.createChooser(
-                Intent(Intent.ACTION_SEND).apply {
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_SUBJECT, viewModel.title)
-                    putExtra(Intent.EXTRA_TEXT, viewModel.text)
-                },
-                getString(R.string.share)
-            )
+    private fun shareDocument() = startActivity(
+        Intent.createChooser(
+            Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, viewModel.text)
+                type = "text/plain"
+            }, null
         )
-    }
+    )
 
 
     companion object {

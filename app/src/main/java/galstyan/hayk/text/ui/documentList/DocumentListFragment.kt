@@ -45,6 +45,8 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
             onOptionsItemSelected(it)
         }
 
+        createItemTouchHelper().attachToRecyclerView(binding.documentList)
+
         val adapter = createDocumentListAdapter(::openDocument)
         binding.documentList.adapter = adapter
 
