@@ -17,9 +17,14 @@ class DocumentFileDataSource(
     private val dao = database.documentFileEntryDao()
 
     init {
-        if (!workingDirectory.isDirectory) {
-            logger.log(javaClass.simpleName, "$workingDirectory is not a directory")
-        }
+        logger.log(
+            javaClass.simpleName,
+            if (!workingDirectory.isDirectory)
+                "$workingDirectory is not a directory"
+            else "Files in directory \"${workingDirectory.name}\":\n${
+                workingDirectory.listFiles()?.map { it.name }
+            }"
+        )
     }
 
     override suspend fun getList() = dao.getAll().mapNotNull { dbEntry ->

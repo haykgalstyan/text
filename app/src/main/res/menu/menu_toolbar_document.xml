@@ -7,6 +7,11 @@
             android:id="@+id/deleteDocumentMenuAction"
             android:title="@string/delete"
             app:showAsAction="never" />
+
+        <item
+            android:id="@+id/shareDocumentMenuAction"
+            android:title="@string/share"
+            app:showAsAction="never" />
     </group>
 
 </menu>

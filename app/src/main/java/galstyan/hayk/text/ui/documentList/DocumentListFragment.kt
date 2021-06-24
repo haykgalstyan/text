@@ -16,6 +16,7 @@ import galstyan.hayk.text.databinding.ItemDocumentBinding
 import galstyan.hayk.text.ui.*
 import galstyan.hayk.text.ui.document.DocumentFragment
 import galstyan.hayk.text.ui.push
+import galstyan.hayk.text.ui.util.toPx
 import javax.inject.Inject
 
 @AndroidEntryPoint

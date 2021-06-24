@@ -1,13 +1,17 @@
 package galstyan.hayk.text.ui.document
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.text.R
-import galstyan.hayk.text.ui.ViewBindingFragment
 import galstyan.hayk.text.databinding.FragmentDocumentBinding
+import galstyan.hayk.text.ui.ViewBindingFragment
+import galstyan.hayk.text.ui.pop
+
 
 @AndroidEntryPoint
 class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
@@ -27,59 +31,53 @@ class DocumentFragment : ViewBindingFragment<FragmentDocumentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.apply {
-            setNavigationOnClickListener { requireActivity().onBackPressed() }
+            setNavigationOnClickListener { pop() }
             setOnMenuItemClickListener { onOptionsItemSelected(it) }
         }
-        getDocument()?.let {
+
+        viewModel.initialDocument?.let {
             binding.title.setText(it.title)
             binding.text.setText(it.text)
         }
+
+        binding.title.doAfterTextChanged { viewModel.title = it }
+        binding.text.doAfterTextChanged { viewModel.text = it }
     }
 
 
     override fun onPause() {
         super.onPause()
-
-        // fixme: you are saving deleted doc :D
-        //  store this in vm and delete on remove.
-
-        viewModel.saveDocument(
-            (getDocument() ?: Document()).copy(
-                title = binding.title.text.toString(),
-                text = binding.text.text.toString(),
-            )
-        )
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        getDocument()?.let {
-        menu.findItem(R.id.deleteDocumentMenuAction).isVisible = true
-//        }
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-//        getDocument()?.let {
-        menu.findItem(R.id.deleteDocumentMenuAction).isVisible = true
-//        }
-        super.onPrepareOptionsMenu(menu)
+        viewModel.saveDocument()
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.deleteDocumentMenuAction -> deleteDocument()
+            R.id.shareDocumentMenuAction -> shareDocument()
         }
         return true
     }
 
 
     private fun deleteDocument() {
-        getDocument()?.let { viewModel.removeDocument(it) }
+        viewModel.removeDocument()
+        pop()
     }
 
 
-    private fun getDocument(): Document? = (arguments?.get(argKeyDocument) as Document?)
+    private fun shareDocument() {
+        startActivity(
+            Intent.createChooser(
+                Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, viewModel.title)
+                    putExtra(Intent.EXTRA_TEXT, viewModel.text)
+                },
+                getString(R.string.share)
+            )
+        )
+    }
 
 
     companion object {

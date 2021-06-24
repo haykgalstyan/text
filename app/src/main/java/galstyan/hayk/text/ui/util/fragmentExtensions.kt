@@ -13,3 +13,5 @@ fun FragmentActivity.push(fragment: Fragment, addToBackStack: Boolean = false) =
     }
 
 fun Fragment.push(fragment: Fragment) = requireActivity().push(fragment, true)
+
+fun Fragment.pop() = requireActivity().onBackPressed()
