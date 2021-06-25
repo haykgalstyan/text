@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.core.domain.usecase.DocumentListGet
+import galstyan.hayk.text.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DocumentListViewModel @Inject constructor(
     private val documentListGet: DocumentListGet,
+    private val logger: Logger
 ) : ViewModel() {
 
     private val _documentListObservable = MutableLiveData<List<Document>>()
@@ -27,7 +29,7 @@ class DocumentListViewModel @Inject constructor(
     }
 
     fun onItemMove(from: Int, to: Int) {
-        val list = _documentListObservable.value ?: return
+        val list = _documentListObservable.value?.toMutableList() ?: return
         Collections.swap(list, from, to)
         _documentListObservable.value = list
     }
