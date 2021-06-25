@@ -47,7 +47,7 @@ class DocumentFileDataSource(
             timeEdited = dbEntry.edited,
             orderIndex = dbEntry.orderIndex,
         )
-    }
+    }.sortedBy { it.orderIndex }
 
 
     override suspend fun save(document: Document) {
