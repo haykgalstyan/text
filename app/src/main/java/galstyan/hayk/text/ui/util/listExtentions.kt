@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.ItemTouchHelper.*
 
 
 abstract class BoundViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
@@ -101,8 +101,15 @@ fun RecyclerView.addItemMarginsLast(
 ) = this.addItemDecoration(MarginLastItemDecoration(left, top, right, bottom))
 
 
-abstract class MoveCallback(
+class MoveCallback(
+    private val onMove: (from: Int, to: Int) -> Boolean,
     directions: Int = UP or DOWN or START or END
 ) : ItemTouchHelper.SimpleCallback(directions, 0) {
+    override fun onMove(
+        rv: RecyclerView,
+        vh: RecyclerView.ViewHolder,
+        targetVh: RecyclerView.ViewHolder
+    ): Boolean = onMove.invoke(vh.adapterPosition, targetVh.adapterPosition)
+
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 }

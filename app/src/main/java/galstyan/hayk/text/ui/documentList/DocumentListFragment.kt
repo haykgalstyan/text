@@ -6,20 +6,20 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ItemTouchHelper.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.text.Logger
 import galstyan.hayk.text.R
-import galstyan.hayk.text.ui.ViewBindingFragment
 import galstyan.hayk.text.databinding.FragmentDocumentListBinding
 import galstyan.hayk.text.databinding.ItemDocumentBinding
-import galstyan.hayk.text.ui.*
+import galstyan.hayk.text.ui.ViewBindingFragment
 import galstyan.hayk.text.ui.document.DocumentFragment
 import galstyan.hayk.text.ui.push
 import galstyan.hayk.text.ui.util.*
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() {
@@ -47,13 +47,11 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
             onOptionsItemSelected(it)
         }
 
-        setUpDragReorder()
-
-        val adapter = createDocumentListAdapter(::openDocument)
+        val adapter = createDocumentListAdapter(onClick = ::openDocument, onMove = ::onItemMove)
         binding.documentList.adapter = adapter
-
-        viewModel.documentListObservable.observe(viewLifecycleOwner, { documentList ->
-            updateList(adapter, documentList)
+        viewModel.documentListObservable.observe(viewLifecycleOwner, { list ->
+            adapter.submitList(list)
+            binding.documentList.invalidateItemDecorations()
         })
 
         binding.createDocumentAction.setOnClickListener { openDocument() }
@@ -76,52 +74,14 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
     }
 
 
-    private fun updateList(adapter: BaseListAdapter<Document>, documentList: List<Document>) {
-        adapter.submitList(documentList)
-        binding.documentList.invalidateItemDecorations()
-    }
-
-
     private fun openDocument(document: Document? = null) {
         push(DocumentFragment.newInstance(document))
     }
 
-
-    private fun createDocumentListAdapter(onClick: (Document) -> Unit): BaseListAdapter<Document> {
-        val adapter = object : BaseListAdapter<Document>(DocumentListItemDiffer()) {
-            override
-            fun createViewHolder(
-                inflater: LayoutInflater,
-                parent: ViewGroup,
-                viewType: Int
-            ): BoundViewHolder<Document> {
-                val binding = ItemDocumentBinding.inflate(inflater, parent, false)
-                return object : BoundViewHolder<Document>(binding.root) {
-                    override fun bind(it: Document) {
-                        binding.title.text = it.title
-                        binding.text.text = it.text
-                        binding.root.setOnClickListener {
-                            onClick.invoke(getItem(adapterPosition))
-                        }
-                    }
-                }
-            }
-
-            fun onItemMove(from: Int, to: Int): Boolean {
-                // todo
-                return true
-            }
-        }
-
-        object : MoveCallback() {
-            override fun onMove(
-                rv: RecyclerView, vh: RecyclerView.ViewHolder, targetVh: RecyclerView.ViewHolder
-            ): Boolean = adapter.onItemMove(vh.adapterPosition, targetVh.adapterPosition)
-        } // todo  attach to rv
-
-        return adapter
+    private fun onItemMove(from: Int, to: Int): Boolean {
+        viewModel.onItemMove(from, to)
+        return true
     }
-
 
     private fun configureListUI() = binding.documentList.apply {
         addItemMarginsFirst(top = toPx(16))
@@ -131,5 +91,35 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
             right = toPx(16)
         )
         addItemMarginsLast(bottom = toPx(16))
+    }
+
+
+    private fun createDocumentListAdapter(
+        onClick: (Document) -> Unit,
+        onMove: (from: Int, to: Int) -> Boolean
+    ) = object : BaseListAdapter<Document>(DocumentListItemDiffer()) {
+
+        override fun onAttachedToRecyclerView(rv: RecyclerView) {
+            super.onAttachedToRecyclerView(rv)
+            ItemTouchHelper(MoveCallback(onMove)).attachToRecyclerView(rv)
+        }
+
+        override
+        fun createViewHolder(
+            inflater: LayoutInflater,
+            parent: ViewGroup,
+            viewType: Int
+        ): BoundViewHolder<Document> {
+            val binding = ItemDocumentBinding.inflate(inflater, parent, false)
+            return object : BoundViewHolder<Document>(binding.root) {
+                override fun bind(it: Document) {
+                    binding.title.text = it.title
+                    binding.text.text = it.text
+                    binding.root.setOnClickListener {
+                        onClick.invoke(getItem(adapterPosition))
+                    }
+                }
+            }
+        }
     }
 }
