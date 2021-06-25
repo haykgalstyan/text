@@ -66,6 +66,14 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
     }
 
 
+    override fun onPause() {
+        super.onPause()
+
+        viewModel.saveListOrder()
+        // apply list reorder
+    }
+
+
     private fun setUpListRefresh() = binding.documentListRefresh.apply {
         setOnRefreshListener {
             isRefreshing = false

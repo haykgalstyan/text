@@ -16,6 +16,12 @@ interface DocumentFileEntryDao {
     @Update
     fun update(documentEntity: DocumentEntity)
 
+    @Update
+    fun update(documentEntity: List<DocumentEntity>)
+
+    @Update(entity = DocumentEntity::class)
+    fun updateOrder(updates: List<DocumentEntityUpdateOrder>)
+
     @Delete
     fun delete(documentEntity: DocumentEntity)
 }

@@ -16,4 +16,10 @@ interface DocumentDataSource {
      * Remove the document if it exists
      */
     suspend fun remove(document: Document)
+
+
+    /**
+     * Reorder stored documents by positions in passed list
+     */
+    suspend fun saveListOrder(documentList: List<Document>)
 }

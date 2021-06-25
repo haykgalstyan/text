@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import galstyan.hayk.core.data.DocumentDataSource
 import galstyan.hayk.core.data.DocumentRepository
 import galstyan.hayk.core.domain.usecase.DocumentListGet
+import galstyan.hayk.core.domain.usecase.DocumentListReorder
 import galstyan.hayk.core.domain.usecase.DocumentRemove
 import galstyan.hayk.core.domain.usecase.DocumentSave
 import galstyan.hayk.text.Logger
@@ -49,4 +50,8 @@ object AppModule {
     @Provides
     fun provideDocumentRemove(documentRepository: DocumentRepository): DocumentRemove =
         DocumentRemove(documentRepository)
+
+    @Provides
+    fun provideDocumentListReorder(documentRepository: DocumentRepository): DocumentListReorder =
+        DocumentListReorder(documentRepository)
 }

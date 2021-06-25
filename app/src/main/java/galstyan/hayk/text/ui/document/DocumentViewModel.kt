@@ -1,7 +1,6 @@
 package galstyan.hayk.text.ui.document
 
 import android.text.Editable
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +13,6 @@ import galstyan.hayk.text.ui.util.toEditable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class DocumentViewModel @Inject constructor(
@@ -46,7 +44,7 @@ class DocumentViewModel @Inject constructor(
             return
         }
 
-        val document = (initialDocument ?: Document()).copy(
+        val document = (initialDocument ?: Document(orderIndex = Int.MAX_VALUE)).copy(
             title = title.toString(),
             text = text.toString()
         )

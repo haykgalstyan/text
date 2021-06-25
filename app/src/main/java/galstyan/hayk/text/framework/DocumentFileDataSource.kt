@@ -5,6 +5,7 @@ import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.text.Logger
 import galstyan.hayk.text.framework.db.AppDatabase
 import galstyan.hayk.text.framework.db.DocumentEntity
+import galstyan.hayk.text.framework.db.DocumentEntityUpdateOrder
 import java.io.File
 
 
@@ -27,6 +28,7 @@ class DocumentFileDataSource(
         )
     }
 
+
     override suspend fun getList() = dao.getAll().mapNotNull { dbEntry ->
         val fileName = dbEntry.fileName ?: return@mapNotNull null
         val file = File(workingDirectory, fileName)
@@ -38,20 +40,22 @@ class DocumentFileDataSource(
             return@mapNotNull null
         }
         Document(
-            id = dbEntry.id.toString(),
+            id = dbEntry.id,
             title = dbEntry.documentTitle,
             text = file.readText(),
             timeCreated = dbEntry.created,
-            timeEdited = dbEntry.edited
+            timeEdited = dbEntry.edited,
+            orderIndex = dbEntry.orderIndex,
         )
     }
+
 
     override suspend fun save(document: Document) {
         if (document.title.isNullOrBlank() && document.text.isNullOrBlank())
             return
 
         val timeStamp = System.currentTimeMillis()
-        val id = document.id?.toInt()
+        val id = document.id
         val documentTitle = document.title?.takeIf { it.isNotBlank() }
         val contentText = document.text?.takeIf { it.isNotBlank() }
         val creationTime = document.timeCreated ?: timeStamp
@@ -67,13 +71,15 @@ class DocumentFileDataSource(
                 documentTitle = documentTitle,
                 created = creationTime,
                 edited = editionTime,
-                fileName = fileName
+                fileName = fileName,
+                orderIndex = Int.MAX_VALUE
             )
         )
     }
 
+
     override suspend fun remove(document: Document) {
-        val id = document.id?.toInt() ?: return
+        val id = document.id ?: return
         val documentEntity = dao.get(id)
 
         logger.log(
@@ -96,6 +102,18 @@ class DocumentFileDataSource(
                     "${workingDirectory.listFiles()?.map { it.name }}"
         )
     }
+
+
+    override suspend fun saveListOrder(documentList: List<Document>) {
+        val entities = documentList.mapIndexed { index, document ->
+            DocumentEntityUpdateOrder(
+                id = document.id,
+                orderIndex = index
+            )
+        }
+        dao.updateOrder(entities)
+    }
+
 
     private fun clearWorkingDirectory() {
         workingDirectory.listFiles()?.forEach { it.delete() }

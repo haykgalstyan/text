@@ -16,4 +16,7 @@ class DocumentRepository(private val dataSource: DocumentDataSource) {
 
     suspend fun remove(document: Document) = dataSource.remove(document)
 
+
+    suspend fun saveListOrder(documentList: List<Document>) = dataSource.saveListOrder(documentList)
+
 }
