@@ -1,12 +1,14 @@
-package galstyan.hayk.text.ui
+package galstyan.hayk.text.ui.util
 
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper.*
 
 
 abstract class BoundViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
@@ -99,3 +101,8 @@ fun RecyclerView.addItemMarginsLast(
 ) = this.addItemDecoration(MarginLastItemDecoration(left, top, right, bottom))
 
 
+abstract class MoveCallback(
+    directions: Int = UP or DOWN or START or END
+) : ItemTouchHelper.SimpleCallback(directions, 0) {
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+}

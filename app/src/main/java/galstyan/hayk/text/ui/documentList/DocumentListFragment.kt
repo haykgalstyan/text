@@ -6,6 +6,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper.*
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import galstyan.hayk.core.domain.entity.Document
 import galstyan.hayk.text.Logger
@@ -16,7 +18,7 @@ import galstyan.hayk.text.databinding.ItemDocumentBinding
 import galstyan.hayk.text.ui.*
 import galstyan.hayk.text.ui.document.DocumentFragment
 import galstyan.hayk.text.ui.push
-import galstyan.hayk.text.ui.util.toPx
+import galstyan.hayk.text.ui.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,7 +47,7 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
             onOptionsItemSelected(it)
         }
 
-        createItemTouchHelper().attachToRecyclerView(binding.documentList)
+        setUpDragReorder()
 
         val adapter = createDocumentListAdapter(::openDocument)
         binding.documentList.adapter = adapter
@@ -85,8 +87,8 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
     }
 
 
-    private fun createDocumentListAdapter(onClick: (Document) -> Unit): BaseListAdapter<Document> =
-        object : BaseListAdapter<Document>(DocumentListItemDiffer()) {
+    private fun createDocumentListAdapter(onClick: (Document) -> Unit): BaseListAdapter<Document> {
+        val adapter = object : BaseListAdapter<Document>(DocumentListItemDiffer()) {
             override
             fun createViewHolder(
                 inflater: LayoutInflater,
@@ -104,7 +106,21 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
                     }
                 }
             }
+
+            fun onItemMove(from: Int, to: Int): Boolean {
+                // todo
+                return true
+            }
         }
+
+        object : MoveCallback() {
+            override fun onMove(
+                rv: RecyclerView, vh: RecyclerView.ViewHolder, targetVh: RecyclerView.ViewHolder
+            ): Boolean = adapter.onItemMove(vh.adapterPosition, targetVh.adapterPosition)
+        } // todo  attach to rv
+
+        return adapter
+    }
 
 
     private fun configureListUI() = binding.documentList.apply {

@@ -9,4 +9,5 @@ data class Document(
     val text: String? = null,
     val timeCreated: Long? = null,
     val timeEdited: Long? = null,
+    val orderIndex: Int? = null,
 ) : Serializable
