@@ -70,7 +70,6 @@ class DocumentListFragment : ViewBindingFragment<FragmentDocumentListBinding>() 
         super.onPause()
 
         viewModel.saveListOrder()
-        // apply list reorder
     }
 
 
